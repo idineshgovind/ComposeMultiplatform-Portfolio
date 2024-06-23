@@ -28,14 +28,14 @@ kotlin {
         }
         binaries.executable()
     }
-    
+
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -46,9 +46,9 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -60,13 +60,15 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(project(":mpfilepicker"))
+            implementation("dev.shreyaspatil.generativeai:generativeai-google:0.5.0-1.0.0-wasm")
         }
     }
 }
 
 android {
     namespace = "com.dinesh.portfolio"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = 34
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
@@ -74,8 +76,8 @@ android {
 
     defaultConfig {
         applicationId = "com.dinesh.portfolio"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk = 21
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }
@@ -107,5 +109,6 @@ dependencies {
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
     implementation(libs.androidx.material3.desktop)
+    implementation(project(":mpfilepicker"))
 }
 

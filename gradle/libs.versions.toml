@@ -17,6 +17,7 @@ kotlin = "2.0.0"
 uiAndroid = "1.6.8"
 uiTextAndroid = "1.6.8"
 material3Desktop = "1.2.1"
+compiler = "3.2.0-alpha11"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPagerIndicators" }
@@ -35,6 +36,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
 androidx-ui-text-android = { group = "androidx.compose.ui", name = "ui-text-android", version.ref = "uiTextAndroid" }
 androidx-material3-desktop = { group = "androidx.compose.material3", name = "material3-desktop", version.ref = "material3Desktop" }
+androidx-compiler = { group = "androidx.databinding", name = "compiler", version.ref = "compiler" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
