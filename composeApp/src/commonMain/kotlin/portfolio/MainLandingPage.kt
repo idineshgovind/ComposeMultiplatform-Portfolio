@@ -15,8 +15,11 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +32,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import dev.shreyaspatil.ai.client.generativeai.GenerativeModel
@@ -50,6 +57,9 @@ fun MainLandingPage() {
     var showSnackbar by remember { mutableStateOf(false) }
 
     val fileType = listOf("jpg", "png")
+
+    var text by remember { mutableStateOf("") }
+
 
     MaterialTheme(colors = darkColors()) {
         val model = GenerativeModel(
@@ -74,7 +84,8 @@ fun MainLandingPage() {
                     val response = model.generateContent(
                         content {
                             image(imageByteArray!!)
-                            text("input: Act as an Android app developer. For the image provided, use Jetpack Compose to build the screen so that the Compose Preview is as close to this image as possible. Also make sure to include imports and use Material3.\n")
+                            text("Act as an experienced Android app developer. For the provided image, use Jetpack Compose to build the screen, ensuring the Compose Preview replicates the image as accurately as possible. Make sure to include all necessary imports and use Material3 components. Ensure text alignment, button alignment, and image size and shape match the provided image exactly. Provide only the code, without any notes or explanations.")
+                            text(text)
                         }
                     )
 
@@ -92,15 +103,49 @@ fun MainLandingPage() {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Gray)
+                .background(Color.White)
                 .padding(16.dp)
         ) {
             item {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Button(onClick = { showFilePicker = true }) {
+                    Text(
+                        text = "Compose UI Code Generator",
+                        style = MaterialTheme.typography.h3,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = buildAnnotatedString {
+                            append("Add extra prompts first, then select an image. Tool generates code once an image is selected. ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = Color.Black)) {
+                                append("Extra prompts are optional.")
+                            }
+                        },
+                        style = MaterialTheme.typography.body1,
+                        color = Color.Gray
+                    )
+
+                    OutlinedTextField(
+                        value = text,
+                        onValueChange = { text = it },
+                        label = { Text("Extra Prompts & Comments (optional)", color = Color(0xFF6200EE)) },
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = Color(0xFF6200EE), // Purple color for the border when focused
+                            unfocusedBorderColor = Color.Gray // Gray color for the border when unfocused
+                        ),
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp) // Rounded corners
+                    )
+                    Button(onClick = {
+                        showFilePicker = true
+                    }) {
                         Text("Pick a file")
                     }
                 }
@@ -172,6 +217,8 @@ fun MainLandingPage() {
         }
     }
 }
+
+
 
 
 

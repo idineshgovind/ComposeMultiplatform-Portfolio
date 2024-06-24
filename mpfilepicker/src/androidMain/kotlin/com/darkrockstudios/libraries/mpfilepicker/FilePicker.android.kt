@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.core.net.toFile
 
 public actual data class PlatformFile(
 	val uri: Uri,
@@ -22,7 +23,8 @@ public actual fun FilePicker(
 	val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenDocument()) { result ->
 		if (result != null) {
 			val platformFile = PlatformFile(result)
-			onFileSelected(platformFile)
+			val platformFileAsByteArray = platformFile.uri.toFile().readBytes()
+			onFileSelected(platformFileAsByteArray)
 		} else {
 			onFileSelected(null)
 		}
