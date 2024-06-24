@@ -66,7 +66,7 @@ fun MainLandingPage() {
             "gemini-1.5-flash",
             // Retrieve API key as an environmental variable defined in a Build Configuration
             // see https://github.com/google/secrets-gradle-plugin for further instructions
-            "AIzaSyDAltKNbjeZnWkLKz1oo7c11oKrRBk2m7s",
+            "api-key",
             generationConfig = generationConfig {
                 temperature = 1f
                 topK = 64
